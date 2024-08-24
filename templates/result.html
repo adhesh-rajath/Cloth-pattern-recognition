@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classification Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Classification Result</h1>
+        <p><strong>Most Common Prediction:</strong> {{ most_common }}</p>
+        <p><strong>Predictions:</strong> {{ prediction_array }}</p>
+
+        <h2>Segmented Image</h2>
+        <img src="{{ url_for('uploaded_file', filename='segmented_image.png') }}" alt="Segmented Image" class="image">
+
+        <h2>Quadrant Images</h2>
+        <div class="quadrants">
+            <div class="quadrant">
+                <h3>Top Left</h3>
+                <img src="{{ url_for('uploaded_file', filename='top_left_quadrant.jpg') }}" alt="Top Left Quadrant" class="image">
+                <p>Prediction: {{ prediction_array[0] }}</p>
+            </div>
+            <div class="quadrant">
+                <h3>Top Right</h3>
+                <img src="{{ url_for('uploaded_file', filename='top_right_quadrant.jpg') }}" alt="Top Right Quadrant" class="image">
+                <p>Prediction: {{ prediction_array[1] }}</p>
+            </div>
+            <div class="quadrant">
+                <h3>Bottom Left</h3>
+                <img src="{{ url_for('uploaded_file', filename='bottom_left_quadrant.jpg') }}" alt="Bottom Left Quadrant" class="image">
+                <p>Prediction: {{ prediction_array[2] }}</p>
+            </div>
+            <div class="quadrant">
+                <h3>Bottom Right</h3>
+                <img src="{{ url_for('uploaded_file', filename='bottom_right_quadrant.jpg') }}" alt="Bottom Right Quadrant" class="image">
+                <p>Prediction: {{ prediction_array[3] }}</p>
+            </div>
+        </div>
+
+        <a href="/" class="btn">Upload another image</a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabric Pattern Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style1.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Cloth Pattern Recognition</h1>
+        <h1>Upload a Fabric Image</h1>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="Upload">
+        </form>
+
+        <h1>Or Capture from Webcam</h1>
+        <video id="video" width="640" height="480" autoplay></video>
+        <button id="snap">Capture</button>
+        <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+        <form method="post" action="/capture" id="captureForm" enctype="multipart/form-data">
+            <input type="file" name="webcam" id="webcam" style="display:none;">
+            <input type="submit" value="Submit" id="submitCapture" style="display:none;">
+        </form>
+    </div>
+
+    <script>
+        var video = document.getElementById('video');
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        var captureForm = document.getElementById('captureForm');
+        var webcamInput = document.getElementById('webcam');
+        var submitCapture = document.getElementById('submitCapture');
+
+        // Get access to the camera
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
+                video.srcObject = stream;
+                video.play();
+            });
+        }
+
+        // Capture the video frame
+        document.getElementById('snap').addEventListener('click', function () {
+            context.drawImage(video, 0, 0, 640, 480);
+            canvas.toBlob(function (blob) {
+                var file = new File([blob], "capture.jpg", { type: "image/jpeg" });
+                var container = new DataTransfer();
+                container.items.add(file);
+                webcamInput.files = container.files;
+                submitCapture.click();
+            });
+        });
+    </script>
+</body>
+
+</html>
